@@ -1,0 +1,30 @@
+name: python-shell
+recipe: lamp
+config:
+  webroot: .
+services:
+  python:
+    type: python
+    command: python /app/manage.py runserver 0.0.0.0:80
+    run:
+      - "cd $LANDO_MOUNT && pip install -r requirements.txt"
+  database:
+    type: postgres
+    portforward: true
+    creds:
+      database: database
+      # Note that you cannot change the below but they are shown here for transparency
+      # You can read more about why this is below
+      # By "NO PASSWORD" we mean the password is blank
+      user: postgres
+      password: NO PASSWORD
+tooling:
+  python:
+    service: python
+    cmd: python
+  pip:
+    service: python
+    cmd: pip
+  django-admin:
+    service: python
+    cmd: django-admin
